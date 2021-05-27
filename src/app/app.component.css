@@ -1,0 +1,13 @@
+*{
+    margin:0;
+    padding: 0;
+}
+
+div{
+    height: 80%;
+    width:80%;
+    background-color: rgb(2, 211, 248);
+    position: fixed;
+    z-index: -2;
+    clip-path: polygon(100% 0, 85% 14%, 16% 84%, 0 100%, 0 0);
+}
