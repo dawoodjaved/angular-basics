@@ -1,0 +1,43 @@
+<div class="container mt-5" style="max-width: 550px;">
+    <form [formGroup] = "loginFormGroup" (ngSubmit) = "handleOnSubmit(getFormControls)">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input formControlName="email" name = "email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+
+          <div *ngIf = "getFormControls.email.touched" class="text-danger">
+              <div *ngIf = "getFormControls.email.hasError('required') && getFormControls.email.touched">email field is required </div>
+              <div *ngIf = "getFormControls.email.hasError('minlength') && getFormControls.email.touched">email must have more than 10 characters</div>
+              <div *ngIf = "getFormControls.email.hasError('maxlength') && getFormControls.email.touched">email must have less than 30 characters</div>
+          </div>
+
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input formControlName="password" name = "password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+
+          
+          <div *ngIf = "getFormControls.password.touched" class="text-danger">
+            <div *ngIf = "getFormControls.password.hasError('required') && getFormControls.password.touched">password field is required </div>
+            <div *ngIf = "getFormControls.password.hasError('minlength') && getFormControls.password.touched">password must have more than 5 characters</div>
+            <div *ngIf = "getFormControls.password.hasError('maxlength') && getFormControls.password.touched">password must have less than 30 characters</div>
+        </div>
+
+        </div>
+        <div class="form-group form-check">
+          <input formControlName="checkBox" name = "checkBox" type="checkbox" class="form-check-input" id="exampleCheck1" required>          
+          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+
+          
+          <div *ngIf = "getFormControls.checkBox.touched" class="text-danger">
+        <div *ngIf = "getFormControls.checkBox.hasError('required') && getFormControls.checkBox.touched">checkBox field is required </div>
+           
+        </div>
+        </div>
+        <button [disabled] = "!loginFormGroup.valid" type="submit" class="btn btn-primary btn-block">Submit</button>                  
+    </form>
+    <button (click) = "handleReset()" class="mt-1 btn btn-danger btn-block">Reset</button>
+   
+   
+</div>
+
+

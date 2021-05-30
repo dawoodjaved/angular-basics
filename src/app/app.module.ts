@@ -9,7 +9,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import { AddItemsComponent } from './components/add-items/add-items.component'
 import { ShowItemsComponent } from './components/show-items/show-items.component';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { FourZeroFourComponent } from './components/four-zero-four/four-zero-four.component'
 
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -17,13 +17,16 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ReactiveFormsBasicsComponent } from './components/reactive-forms-basics/reactive-forms-basics.component';
 
+import {AuthGuard} from './Guards/auth.guard';
+
 
 const routes: Routes = [
   { path: 'home', component: ShowItemsComponent },
-  { path: 'add-items', component: AddItemsComponent },
+  { path: 'add-items', component: AddItemsComponent, canActivate: [AuthGuard] },
   { path: 'reactive-forms', component: ReactiveFormsBasicsComponent},
+  { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  {path: '404', component: FourZeroFourComponent},
+  {path: '404', component: FourZeroFourComponent}, 
   {path: '**', redirectTo: '/404'}
 ];
 @NgModule({
@@ -34,7 +37,7 @@ const routes: Routes = [
     AddItemsComponent,
     ShowItemsComponent,
     FourZeroFourComponent,
-    ReactiveFormsBasicsComponent
+    ReactiveFormsBasicsComponent, 
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,7 @@ const routes: Routes = [
     MatIconModule,
     MatFormFieldModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule,    
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 import { Component, OnInit,Input } from '@angular/core';
-
+import {UserService} from '../../shared/user.service';
 
 @Component({
   selector: 'app-header',
@@ -10,10 +10,18 @@ export class HeaderComponent implements OnInit {
 
   @Input() clr:string = 'green';
   @Input() text:string = 'submit';
-  constructor() { }
+  constructor(private userservice: UserService) { }
 
+  authToken:boolean = false;
  
-  ngOnInit(): void {
+  
+  ngOnInit(): void {    
+    this.authToken = localStorage.getItem('checkUser') === 'true' ? true : false;
+    console.log('we get this as ',this.authToken);
+  }
+
+  logout(){
+    this.userservice.logout();
   }
 
 }

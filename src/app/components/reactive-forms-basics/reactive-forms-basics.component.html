@@ -33,12 +33,11 @@
            
         </div>
         </div>
-        <button [disabled] = "!reactiveFormGroup.valid" type="submit" class="btn btn-primary">Submit</button>        
-        <hr/>    
+        <button [disabled] = "!reactiveFormGroup.valid" type="submit" class="btn btn-primary btn-block">Submit</button>                
     </form>
-    <button (click) = "handleReset()" class="btn btn-danger btn-block">Reset</button>
-    <button (click) = "handleSetValues()"  class="btn btn-success btn-block ms-3">Set-values</button>
-    <button (click) = "handleChangedValues()" class="btn btn-success btn-block ms-3">get-changed-values</button>
+    <button (click) = "handleReset()" class="mt-2 btn btn-danger btn-block">Reset</button>
+    <button (click) = "handleSetValues()"  class="btn btn-success btn-block">Set-values</button>
+    <button (click) = "handleChangedValues()" class="btn btn-success btn-block">get-changed-values</button>
    
 </div>
 

@@ -16,14 +16,12 @@
       class="form-check-input" id="exampleCheck1" required>
       <label class="form-check-label" for="exampleCheck1">Check me out</label>
     </div>
-    <button [disabled] = "!addItemsForm.valid" type="submit" class="btn btn-primary">Submit</button>
-    <div *ngIf= "email=== 'dawoodjaveed1121998@gmail.com'">{{email}}</div>
-     
-    <hr/>
+    <button [disabled] = "!addItemsForm.valid" type="submit" class="btn btn-primary btn-block">Submit</button>    
+         
 </form>
 
-<button (click) = "resetItemsValues(addItemsForm)" class="btn btn-danger btn-block">Reset</button>
-<button (click) = "setItemsValues(addItemsForm)" class="btn btn-success btn-block ms-3">Set-values</button>
+<button (click) = "resetItemsValues(addItemsForm)" class="mt-2 btn btn-danger btn-block">Reset</button>
+<button (click) = "setItemsValues(addItemsForm)" class="btn btn-success btn-block">Set-values</button>
 
 
 </div>
