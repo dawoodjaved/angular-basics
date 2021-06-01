@@ -1,4 +1,7 @@
 <div class="container mt-5" style="max-width: 550px;">
+  <div class="card">
+    <h4 class="card-header">Add Items</h4>
+    <div class="card-body">
     <form [formGroup] = "reactiveFormGroup" (ngSubmit) = "handleOnSubmit()">
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
@@ -40,5 +43,8 @@
     <button (click) = "handleChangedValues()" class="btn btn-success btn-block">get-changed-values</button>
    
 </div>
+</div>
+</div>
+
 
 

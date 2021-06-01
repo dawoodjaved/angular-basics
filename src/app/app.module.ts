@@ -18,6 +18,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ReactiveFormsBasicsComponent } from './components/reactive-forms-basics/reactive-forms-basics.component';
 
 import {AuthGuard} from './Guards/auth.guard';
+import { ItemDetailsComponent } from './users/components/item-details/item-details.component';
 
 
 const routes: Routes = [
@@ -37,7 +38,8 @@ const routes: Routes = [
     AddItemsComponent,
     ShowItemsComponent,
     FourZeroFourComponent,
-    ReactiveFormsBasicsComponent, 
+    ReactiveFormsBasicsComponent,
+    ItemDetailsComponent, 
   ],
   imports: [
     BrowserModule,

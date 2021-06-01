@@ -1,4 +1,7 @@
 <div class="container mt-5" style="max-width: 550px;">
+  <div class="card">
+    <h4 class="card-header">Add Items</h4>
+    <div class="card-body">
   <form #addItemsForm = "ngForm" (submit)="addItems(addItemsForm)">
     <div class="form-group">
       <label for="exampleInputEmail1">Email address</label>
@@ -24,5 +27,7 @@
 <button (click) = "setItemsValues(addItemsForm)" class="btn btn-success btn-block">Set-values</button>
 
 
+</div>
+  </div>
 </div>
 

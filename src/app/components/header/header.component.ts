@@ -1,26 +1,36 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input, OnChanges, SimpleChanges } from '@angular/core';
 import {UserService} from '../../shared/user.service';
+import {Router} from '@angular/router';
+
+
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnChanges,OnInit {
 
-  @Input() clr:string = 'green';
-  @Input() text:string = 'submit';
-  constructor(private userservice: UserService) { }
-
+  @Input() clr:string = 'green';  
   authToken:boolean = false;
- 
+  constructor(private userservice: UserService,private router: Router) { 
+    this.router.events.subscribe((value) => {
+      this.authToken = this.userservice.isLogedInOrNot;
+    });
+  }
+
   
-  ngOnInit(): void {    
-    this.authToken = localStorage.getItem('checkUser') === 'true' ? true : false;
-    console.log('we get this as ',this.authToken);
+  
+  ngOnInit(): void {
+    
+  }
+  
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
   }
 
   logout(){
+
     this.userservice.logout();
   }
 

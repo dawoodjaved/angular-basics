@@ -3,11 +3,17 @@
     padding: 0;
 }
 
-div{
-    height: 80%;
-    width:80%;
+.header{
+    height: 110%;
+    width:100%;
     background-color: rgb(2, 211, 248);
-    position: fixed;
-    z-index: -1;
-    clip-path: polygon(100% 0, 85% 14%, 16% 84%, 0 100%, 0 0);
+    display: flex;
+    justify-items: center;
+    
 }
+.cont{    
+    position: absolute;
+    margin-top: 3%;
+    
+}
+

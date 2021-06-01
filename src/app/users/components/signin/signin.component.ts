@@ -41,11 +41,14 @@ export class SigninComponent implements OnInit {
   handleOnSubmit(obj:any){
     let emailValue:string = obj.email.value;
     let passwordValue:string = obj.password.value;
-    let data:boolean;
-    data = this.userservice.login(emailValue,passwordValue);
-      if(data){
-        this.router.navigate(['/add-items']); 
-      }   
+    
+    this.userservice.login(emailValue,passwordValue).subscribe( data => { 
+      console.log("Is Login Success: " + data); 
+
+      if(data) this.router.navigate(['/add-items']); 
+      
+    });
+      
   }
 
   handleReset(){

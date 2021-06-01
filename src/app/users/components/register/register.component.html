@@ -1,4 +1,7 @@
 <div class="container mt-5" style="max-width: 550px;">
+  <div class="card">
+    <h4 class="card-header">Register YourSelf</h4>
+    <div class="card-body">
     <form [formGroup] = "registerFormGroup" (ngSubmit) = "handleOnSubmit()">
         <div class="form-group">
             <label for="exampleInputEmail1">First Name</label>
@@ -60,5 +63,6 @@
     <button (click) = "handleReset()" class="mt-2 btn btn-danger btn-block">Reset</button>   
    
 </div>
-
+  </div>
+</div>
 
