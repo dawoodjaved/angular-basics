@@ -34,10 +34,7 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(30),        
-    ])),
-      checkBox: new FormControl(false,Validators.compose([
-        Validators.required,        
-    ])),
+    ])),     
       
     }
   );

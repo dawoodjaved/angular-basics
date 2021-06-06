@@ -2,29 +2,58 @@
   <div class="card">
     <h4 class="card-header">Add Items</h4>
     <div class="card-body">
-  <form #addItemsForm = "ngForm" (submit)="addItems(addItemsForm)">
+  <form [formGroup] = "addItemsGroup"(ngSubmit)="handleOnSubmit()">
     <div class="form-group">
-      <label for="exampleInputEmail1">Email address</label>
-      <input [(ngModel)]="email" name = "email" type="email" class="form-control" 
-      id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+      <label for="exampleInputEmail1">Item Name</label>
+      <input formControlName = "itemName" name = "itemName" type="text" class="form-control" 
+      id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Item Name" required>
      
+      <div *ngIf = "getFormControls.itemName.touched" class="text-danger">
+        <div *ngIf = "getFormControls.itemName.hasError('required') && getFormControls.itemName.touched">item name field is required </div>
+        <div *ngIf = "getFormControls.itemName.hasError('minlength') && getFormControls.itemName.touched">item name must have more than 3 characters</div>
+        <div *ngIf = "getFormControls.itemName.hasError('maxlength') && getFormControls.itemName.touched">item name must have less than 30 characters</div>
     </div>
+    </div>
+
     <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
-      <input [(ngModel)]="password" name = "password" type="password" class="form-control" id="exampleInputPassword1" 
-      placeholder="Password" required>
+      <label for="exampleInputPassword1">Item Type</label>
+      <input formControlName ="itemType" name = "itemType" type="text" class="form-control" id="exampleInputPassword1" 
+      placeholder="Enter Item Type" required>
+
+      <div *ngIf = "getFormControls.itemType.touched" class="text-danger">
+        <div *ngIf = "getFormControls.itemType.hasError('required') && getFormControls.itemType.touched">item type field is required </div>
+        <div *ngIf = "getFormControls.itemType.hasError('minlength') && getFormControls.itemType.touched">item type must have more than 3 characters</div>
+        <div *ngIf = "getFormControls.itemType.hasError('maxlength') && getFormControls.itemType.touched">item type must have less than 30 characters</div>
     </div>
-    <div class="form-group form-check">
-      <input [(ngModel)]="checkBoxValue" name = "checkBoxValue" type="checkbox" 
-      class="form-check-input" id="exampleCheck1" required>
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
     </div>
-    <button [disabled] = "!addItemsForm.valid" type="submit" class="btn btn-primary btn-block">Submit</button>    
+    
+    <div class="form-group">
+      <label for="exampleInputPassword2">Item Company</label>
+      <input formControlName="itemCompany" name = "itemCompany" type="text" class="form-control" id="exampleInputPassword1" 
+      placeholder="Enter Item Company" required>
+
+      <div *ngIf = "getFormControls.itemCompany.touched" class="text-danger">
+        <div *ngIf = "getFormControls.itemCompany.hasError('required') && getFormControls.itemCompany.touched">item company field is required </div>
+        <div *ngIf = "getFormControls.itemCompany.hasError('minlength') && getFormControls.itemCompany.touched">item company must have more than 3 characters</div>
+        <div *ngIf = "getFormControls.itemCompany.hasError('maxlength') && getFormControls.itemCompany.touched">item company must have less than 30 characters</div>
+    </div>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputPassword3">Item Price</label>
+      <input formControlName="itemPrice" name = "itemPrice" type="text" class="form-control" id="exampleInputPassword1" 
+      placeholder="Enter Item Price" required>
+
+      <div *ngIf = "getFormControls.itemPrice.touched" class="text-danger">
+        <div *ngIf = "getFormControls.itemPrice.hasError('required') && getFormControls.itemPrice.touched">item price field is required </div>        
+    </div>
+    </div>
+
+    <button [disabled] = "!addItemsGroup.valid" type="submit" class="btn btn-primary btn-block">Submit</button>    
          
 </form>
 
-<button (click) = "resetItemsValues(addItemsForm)" class="mt-2 btn btn-danger btn-block">Reset</button>
-<button (click) = "setItemsValues(addItemsForm)" class="btn btn-success btn-block">Set-values</button>
+<button (click) = "handleReset()" class="mt-2 btn btn-danger btn-block">Reset</button>
 
 
 </div>

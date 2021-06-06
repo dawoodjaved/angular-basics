@@ -30,10 +30,7 @@ export class SigninComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(30),        
     ])),
-      checkBox: new FormControl(false,Validators.compose([
-        Validators.required,        
-    ])),
-      
+     
     }
   );
 
