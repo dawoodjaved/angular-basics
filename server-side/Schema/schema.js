@@ -1,3 +1,5 @@
+const { User } = require("../models/UserModel");
+const { Item } = require("../models/ItemsModel");
 const {
   GraphQLSchema,
   GraphQLObjectType,
@@ -9,75 +11,21 @@ const {
   GraphQLID,
 } = require("graphql");
 
-//data
-const items = [
-  {
-    id: "1",
-    itemName: "item1",
-    itemType: "type1",
-    itemCompany: "company1",
-    itemPrice: 100.3,
-    itemImageUrl: "https://hello/yes/one",
-    userId: "1",
-  },
-  {
-    id: "2",
-    itemName: "item2",
-    itemType: "type2",
-    itemCompany: "company2",
-    itemPrice: 200.3,
-    itemImageUrl: "https://hello/yes/onefdfds",
-    userId: "2",
-  },
-  {
-    id: "3",
-    itemName: "item3",
-    itemType: "type3",
-    itemCompany: "company3",
-    itemPrice: 300.3,
-    itemImageUrl: "https://hello/yes/onefdfdsfer",
-    userId: "2",
-  },
-];
-
-const users = [
-  {
-    id: "1",
-    firstName: "user1",
-    lastName: "dummy1",
-    email: "user1@gmail.com",
-    password: "12345",
-  },
-  {
-    id: "2",
-    firstName: "user2",
-    lastName: "dummy2",
-    email: "user2@gmail.com",
-    password: "678910",
-  },
-  {
-    id: "3",
-    firstName: "user3",
-    lastName: "dummy3",
-    email: "user3@gmail.com",
-    password: "112233",
-  },
-];
-
+//Queries
 const ItemType = new GraphQLObjectType({
   name: "items",
   fields: () => ({
-    id: { type: GraphQLNonNull(GraphQLID) },
-    itemName: { type: GraphQLNonNull(GraphQLString) },
-    itemType: { type: GraphQLNonNull(GraphQLString) },
-    itemCompany: { type: GraphQLNonNull(GraphQLString) },
-    itemPrice: { type: GraphQLNonNull(GraphQLFloat) },
-    itemImageUrl: { type: GraphQLNonNull(GraphQLString) },
-    userId: { type: GraphQLNonNull(GraphQLID) },
+    id: { type: new GraphQLNonNull(GraphQLID) },
+    itemName: { type: new GraphQLNonNull(GraphQLString) },
+    itemType: { type: new GraphQLNonNull(GraphQLString) },
+    itemCompany: { type: new GraphQLNonNull(GraphQLString) },
+    itemPrice: { type: new GraphQLNonNull(GraphQLFloat) },
+    itemImageUrl: { type: new GraphQLNonNull(GraphQLString) },
+    userId: { type: new GraphQLNonNull(GraphQLID) },
     createdBy: {
       type: UserType,
       resolve: (parents, args) => {
-        return users.find((user) => user.id === parents.userId);
+        return User.findById(parents.userId);
       },
     },
   }),
@@ -86,15 +34,15 @@ const ItemType = new GraphQLObjectType({
 const UserType = new GraphQLObjectType({
   name: "users",
   fields: () => ({
-    id: { type: GraphQLNonNull(GraphQLID) },
-    firstName: { type: GraphQLNonNull(GraphQLString) },
-    lastName: { type: GraphQLNonNull(GraphQLString) },
-    email: { type: GraphQLNonNull(GraphQLString) },
-    password: { type: GraphQLNonNull(GraphQLString) },
+    id: { type: new GraphQLNonNull(GraphQLID) },
+    firstName: { type: new GraphQLNonNull(GraphQLString) },
+    lastName: { type: new GraphQLNonNull(GraphQLString) },
+    email: { type: new GraphQLNonNull(GraphQLString) },
+    password: { type: new GraphQLNonNull(GraphQLString) },
     items: {
       type: GraphQLList(ItemType),
       resolve: (parents, args) => {
-        return items.filter((item) => item.userId === parents.id);
+        return Item.find({}, { userId: parents.id });
       },
     },
   }),
@@ -105,9 +53,7 @@ const RootQuery = new GraphQLObjectType({
   fields: () => ({
     items: {
       type: new GraphQLList(ItemType),
-      resolve: (parents, args) => {
-        return items;
-      },
+      resolve: (parents, args) => Item.find({}),
     },
     item: {
       type: ItemType,
@@ -115,14 +61,12 @@ const RootQuery = new GraphQLObjectType({
         id: { type: GraphQLID },
       },
       resolve: (parents, args) => {
-        return items.find((item) => item.id === args.id);
+        return Item.findById(args.id);
       },
     },
     users: {
       type: new GraphQLList(UserType),
-      resolve: (parents, args) => {
-        return users;
-      },
+      resolve: (parents, args) => User.find({}),
     },
     user: {
       type: UserType,
@@ -130,7 +74,117 @@ const RootQuery = new GraphQLObjectType({
         id: { type: GraphQLID },
       },
       resolve: (parents, args) => {
-        return users.find((user) => user.id === args.id);
+        return User.findById(args.id);
+      },
+    },
+  }),
+});
+
+//Mutations
+const mutations = new GraphQLObjectType({
+  name: "mutations",
+  fields: () => ({
+    addUser: {
+      type: UserType,
+      args: {
+        firstName: { type: GraphQLNonNull(GraphQLString) },
+        lastName: { type: GraphQLNonNull(GraphQLString) },
+        email: { type: GraphQLNonNull(GraphQLString) },
+        password: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (parents, args) => {
+        const user = new User({
+          firstName: args.firstName,
+          lastName: args.lastName,
+          email: args.email,
+          password: args.password,
+        });
+        return user.save();
+      },
+    },
+    updateUser: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+        firstName: { type: GraphQLNonNull(GraphQLString) },
+        lastName: { type: GraphQLNonNull(GraphQLString) },
+        email: { type: GraphQLNonNull(GraphQLString) },
+        password: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (parents, args) => {
+        const newUser = {
+          firstName: args.firstName,
+          lastName: args.lastName,
+          email: args.email,
+          password: args.password,
+        };
+
+        return User.findByIdAndUpdate(args.id, newUser);
+      },
+    },
+    deleteUser: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve: (parents, args) => {
+        return User.findByIdAndRemove(args.id);
+      },
+    },
+    addItem: {
+      type: ItemType,
+      args: {
+        itemName: { type: new GraphQLNonNull(GraphQLString) },
+        itemType: { type: new GraphQLNonNull(GraphQLString) },
+        itemCompany: { type: new GraphQLNonNull(GraphQLString) },
+        itemPrice: { type: new GraphQLNonNull(GraphQLFloat) },
+        itemImageUrl: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve: (parents, args) => {
+        const item = new Item({
+          itemName: args.itemName,
+          itemType: args.itemType,
+          itemCompany: args.itemCompany,
+          itemPrice: args.itemPrice,
+          itemImageUrl: args.itemImageUrl,
+          userId: args.userId,
+        });
+        return item.save();
+      },
+    },
+
+    updateItem: {
+      type: ItemType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+        itemName: { type: new GraphQLNonNull(GraphQLString) },
+        itemType: { type: new GraphQLNonNull(GraphQLString) },
+        itemCompany: { type: new GraphQLNonNull(GraphQLString) },
+        itemPrice: { type: new GraphQLNonNull(GraphQLFloat) },
+        itemImageUrl: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve: (parents, args) => {
+        const newItem = {
+          itemName: args.itemName,
+          itemType: args.itemType,
+          itemCompany: args.itemCompany,
+          itemPrice: args.itemPrice,
+          itemImageUrl: args.itemImageUrl,
+          userId: args.userId,
+        };
+
+        return Item.findByIdAndUpdate(args.id, newItem);
+      },
+    },
+    deleteItem: {
+      type: ItemType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve: (parents, args) => {
+        return Item.findByIdAndRemove(args.id);
       },
     },
   }),
@@ -138,6 +192,7 @@ const RootQuery = new GraphQLObjectType({
 
 const schema = new GraphQLSchema({
   query: RootQuery,
+  mutation: mutations,
 });
 
 module.exports = { schema };

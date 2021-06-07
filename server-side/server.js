@@ -11,7 +11,11 @@ const PORT = process.env.PORT || 5000;
 const URL =
   "mongodb+srv://dawood_javeed:User123@aoaproject.4rjiy.gcp.mongodb.net/Angular-With-GraphQL?retryWrites=true&w=majority";
 
-mongoDB.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoDB.connect(URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+});
 
 // On Connection
 mongoDB.connection.on("connected", () => {
